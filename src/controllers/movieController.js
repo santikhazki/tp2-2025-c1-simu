@@ -2,8 +2,8 @@ import { getMovies, getMovieById } from "../services/movieService.js";
 
 export const getAllMovies = async (req, res) => {
     try {
-        const page = parseInt(req.query.page) || 1;
-        const pageSize = parseInt(req.query.pageSize) || 10;
+        const page = req.query.page ? parseInt(req.query.page) : undefined;
+        const pageSize = req.query.pageSize ? parseInt(req.query.pageSize) : undefined;
         const movies = await getMovies(page, pageSize);
         res.json(movies);
     } catch (error) {
