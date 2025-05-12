@@ -1,7 +1,7 @@
 import { getDb } from "./connection.js";
 import { ObjectId } from "mongodb";
 
-export async function findAllMovies(page = 1, pageSize = 10) {
+export async function findAllMovies(page, pageSize) {
     const db = getDb();
     if (page && pageSize) {
         const skip = (page - 1) * pageSize;
@@ -10,14 +10,7 @@ export async function findAllMovies(page = 1, pageSize = 10) {
             .skip(skip)
             .limit(pageSize)
             .toArray();
-        const total = await db.collection("movies").countDocuments();
-        return {
-            data: movies,
-            total,
-            page,
-            pageSize,
-            totalPages: Math.ceil(total / pageSize)
-        };
+        return movies;
     } else {
         // Sin paginación: trae todas las películas
         const movies = await db.collection("movies").find().toArray();
