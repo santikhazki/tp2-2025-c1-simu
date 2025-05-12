@@ -11,7 +11,7 @@
   "version": "1.0.0",
   "main": "temp.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"no test yet\"",
     "start": "node --watch server.js"
   },
   "author": "",
