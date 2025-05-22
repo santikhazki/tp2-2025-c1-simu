@@ -73,11 +73,9 @@ export async function findMoviesByFresh() {
 export async function findUserComments(id_user) {
     const db = getDb();
 
-    // Paso 1: buscar el usuario por _id
     const user = await db.collection("users").findOne({ _id: new ObjectId(id_user) });
     if (!user) return [];
 
-    // Paso 2: buscar los comentarios que coincidan por nombre y email
     const commentsWithMovies = await db.collection("comments").aggregate([
         {
             $match: {
@@ -88,7 +86,7 @@ export async function findUserComments(id_user) {
         {
             $lookup: {
                 from: "movies",
-                localField: "movie_id", // suponiendo que comments tiene un campo movie_id
+                localField: "movie_id",
                 foreignField: "_id",
                 as: "movie"
             }
@@ -100,7 +98,7 @@ export async function findUserComments(id_user) {
             $project: {
                 _id: 0,
                 movieTitle: "$movie.title",
-                comment: "$text",         // suponiendo que el texto del comentario está en 'text'
+                comment: "$text",
                 moviePoster: "$movie.poster"
             }
         }
